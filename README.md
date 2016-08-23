@@ -18,22 +18,22 @@ Weiterhin werden auch Funktionen zur Verfügung gestellt um den Skin via Script 
 ### 2. Systemanforderungen
 * IP-Symcon ab Version 4.x
 * Installierter "Material Design Skin" für den Webfront
-  siehe: `git://github.com/Uhula/MaterialDesignSkin.git`
+  siehe: `git://github.com/Uhula/IPSMaterialDesignSkin.git`
 
 
 ### 3. Installation
 Im Objektbaum der IP Symcon Managment Console über die Kern-Instanz "Module" folgende URL hinzufügen:
-`git://github.com/Uhula/MaterialDesignSkinOptions.git`
+`git://github.com/Uhula/IPSMaterialDesignSkinOptions.git`
 
 Verwendung auf eigene Gefahr, der Autor übernimmt weder Gewähr noch Haftung.
 
 ### 4. Anleitung
 folgt ;-)
 
-### 5. Changelog
-Version 0.9 (18.08.2016):
-  - Erster Upload
+![Beispiel 1](docs/example1.png?raw=true "Beispiel 1")
 
+### 5. Changelog
+Siehe [ChangeLog](./CHANGELOG.MD)
 
 ### 6. Sonstiges
 
