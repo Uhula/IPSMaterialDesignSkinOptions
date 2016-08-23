@@ -1,6 +1,6 @@
 <?
 
-class MaterialDesignSkinOptions extends IPSModule
+class IPSMaterialDesignSkinOptions extends IPSModule
 {
 
   public function Create() {
@@ -12,6 +12,7 @@ class MaterialDesignSkinOptions extends IPSModule
     $this->RegisterPropertyInteger("SkinTheme", 0);
     $this->RegisterPropertyInteger("AccentTheme", 0);
     $this->RegisterPropertyInteger("WebfrontID", 0);
+    $this->RegisterPropertyInteger("LogLevel", 0);
     $this->RegisterPropertyString("Custom1",'{"theme":"Custom1", "icons":"white","colors":{"bc":"803030","bcc":"f24242","bcn1":"400000","bcn2":"812121","bcn3":"812121","bcg":"424242","fc":"FFFFFF","fcn":"FFFFFF","fch":"E0E0E0","fcl":"F0F0F0","fcv":"F0F0F0","ac":"FFB74D"}}');
   }
   
