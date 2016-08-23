@@ -1,0 +1,71 @@
+{
+  "elements": [ 
+      { "type": "Label", "label": "*** MaterialDesignSkin Optionen" },
+      { "type": "Label", "label": "-------------------------------" },
+      { "type": "SelectInstance", "name": "WebfrontID", "caption": "WebFront" },
+  
+      { "type": "Select", "name": "SkinTheme", "caption": "Skin-Thema",
+        "options": [
+            { "label": "Grau", "value": 0 },
+            { "label": "Violett", "value": 1 },
+            { "label": "Indigo", "value": 2 },
+            { "label": "Blau", "value": 3 },
+            { "label": "Türkis", "value": 4 },
+            { "label": "Petrol", "value": 5 },
+            { "label": "Grün", "value": 6 },
+            { "label": "Bernstein", "value": 7 },
+            { "label": "Orange", "value": 8 },
+            { "label": "Braun", "value": 9 },
+            { "label": "Blaugrau", "value": 10 },
+
+            { "label": "D.Grau", "value": 100 },
+            { "label": "D.Violett", "value": 101 },
+            { "label": "D.Indigo", "value": 102 },
+
+            { "label": "Benutzerdefiniert 1", "value": 200 },
+            { "label": "Benutzerdefiniert 2", "value": 201 },
+            { "label": "Benutzerdefiniert 3", "value": 202 }
+        ]
+      },
+      { "type": "Select", "name": "AccentTheme", "caption": "Akzent-Thema",
+        "options": [
+            { "label": "Grau", "value": 0 },
+            { "label": "Violett", "value": 1 },
+            { "label": "Indigo", "value": 2 },
+            { "label": "Blau", "value": 3 },
+            { "label": "Türkis", "value": 4 },
+            { "label": "Petrol", "value": 5 },
+            { "label": "Grün", "value": 6 },
+            { "label": "Bernstein", "value": 7 },
+            { "label": "Orange", "value": 8 },
+            { "label": "Braun", "value": 9 },
+            { "label": "Blaugrau", "value": 10 },
+
+            { "label": "D.Grau", "value": 100 },
+            { "label": "D.Violett", "value": 101 },
+            { "label": "D.Indigo", "value": 102 },
+
+            { "label": "Benutzerdefiniert 1", "value": 200 },
+            { "label": "Benutzerdefiniert 2", "value": 201 },
+            { "label": "Benutzerdefiniert 3", "value": 202 }
+        ]
+      },
+      { "type": "ValidationTextBox", "name": "Custom1", "caption": "Benutzerdefiniert 1" },    
+      { "type": "Label", "label": "*** Format:" },
+      { "type": "Label", "label": "bc=background color, ..." },
+      { "type": "Label", "label": "Farbangaben hexadezimal RRGGBB" },
+      { "type": "Button", "label": "Test", "onClick": "echo $id;" }
+    ],
+
+    "actions": [
+      { "type": "Button", "label": "Skin 0 0", "onClick": "MDS_SetSkinTheme(0,0);" },
+      { "type": "Button", "label": "Skin 100 2", "onClick": "MDS_SetSkinTheme(100,2);" }
+    ],
+    
+    "status": [
+      { "code": 101, "icon": "active", "caption": "Instanz wird erstellt" },
+      { "code": 102, "icon": "active", "caption": "Instanz ok" },
+      { "code": 201, "icon": "error", "caption": "Es wurde noch kein WebFront gewählt" },
+      { "code": 202, "icon": "error", "caption": "Skin ist unbekannt" }
+    ]
+}

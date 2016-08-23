@@ -1,0 +1,240 @@
+{
+  "0": {
+    "theme": "Grau",
+    "icons": "black",
+    "colors": {
+      "bc": "FAFAFA",
+      "bcc": "FEFEFE",
+      "bch": "E0E0E0",
+      "bcn": "EEEEEE",
+      "bcg": "606060",
+      "fc": "000000",
+      "fcn": "000000",
+      "fch": "808080",
+      "fcl": "212121",
+      "fcv": "000000",
+      "ac": "404040"
+    }
+  },
+  "1": {
+    "theme": "Violett",
+    "icons": "black",
+    "colors": {
+      "bc": "FAFAFA",
+      "bcc": "FFFFFF",
+      "bch": "B39DDB",
+      "bcn": "D1C4E9",
+      "bcg": "512DA8",
+      "fc": "000000",
+      "fcn": "000000",
+      "fch": "9575CD",
+      "fcl": "000000",
+      "fcv": "000000",
+      "ac": "512DA8"
+    }
+  },
+  "2": {
+    "theme": "Indigo",
+    "icons": "black",
+    "colors": {
+      "bc": "FAFAFA",
+      "bcc": "FFFFFF",
+      "bch": "9FA8DA",
+      "bcn": "C5CAE9",
+      "bcg": "303F9F",
+      "fc": "000000",
+      "fcn": "000000",
+      "fch": "7986CB",
+      "fcl": "000000",
+      "fcv": "000000",
+      "ac": "303F9F"
+    }
+  },
+  "3": {
+    "theme": "Blau",
+    "icons": "black",
+    "colors": {
+      "bc": "FAFAFA",
+      "bcc": "FFFFFF",
+      "bch": "90CAF9",
+      "bcn": "BBDEFB",
+      "bcg": "1976D2",
+      "fc": "000000",
+      "fcn": "000000",
+      "fch": "64B5F6",
+      "fcl": "000000",
+      "fcv": "000000",
+      "ac": "1976D2"
+    }
+  },
+  "4": {
+    "theme": "Tuerkis",
+    "icons": "black",
+    "colors": {
+      "bc": "FAFAFA",
+      "bcc": "FFFFFF",
+      "bch": "80DEEA",
+      "bcn": "B2EBF2",
+      "bcg": "0097A7",
+      "fc": "000000",
+      "fcn": "000000",
+      "fch": "4DD0E1",
+      "fcl": "000000",
+      "fcv": "000000",
+      "ac": "0097A7"
+    }
+  },
+  "5": {
+    "theme": "Petrol",
+    "icons": "black",
+    "colors": {
+      "bc": "FAFAFA",
+      "bcc": "FFFFFE",
+      "bch": "80CBC4",
+      "bcn": "B2DFDB",
+      "bcg": "00796B",
+      "fc": "000000",
+      "fcn": "000000",
+      "fch": "4DB6AC",
+      "fcl": "000000",
+      "fcv": "000000",
+      "ac": "00796B"
+    }
+  },
+  "6": {
+    "theme": "Gruen",
+    "icons": "black",
+    "colors": {
+      "bc": "FAFAFA",
+      "bcc": "FFFFFE",
+      "bch": "A5D6A7",
+      "bcn": "C8E6C9",
+      "bcg": "388E3C",
+      "fc": "000000",
+      "fcn": "000000",
+      "fch": "81C784",
+      "fcl": "000000",
+      "fcv": "000000",
+      "ac": "388E3C"
+    }
+  },
+  "7": {
+    "theme": "Bernstein",
+    "icons": "black",
+    "colors": {
+      "bc": "FAFAFA",
+      "bcc": "FFFFFE",
+      "bch": "FFE082",
+      "bcn": "FFECB3",
+      "bcg": "FFA000",
+      "fc": "000000",
+      "fcn": "000000",
+      "fch": "FFD54F",
+      "fcl": "000000",
+      "fcv": "000000",
+      "ac": "FFA000"
+    }
+  },
+  "8": {
+    "theme": "Orange",
+    "icons": "black",
+    "colors": {
+      "bc": "FAFAFA",
+      "bcc": "FFFFFE",
+      "bch": "FFCC80",
+      "bcn": "FFE0B2",
+      "bcg": "F57C00",
+      "fc": "000000",
+      "fcn": "000000",
+      "fch": "FFB74D",
+      "fcl": "000000",
+      "fcv": "000000",
+      "ac": "F57C00"
+    }
+  },
+  "9": {
+    "theme": "Braun",
+    "icons": "black",
+    "colors": {
+      "bc": "FAFAFA",
+      "bcc": "FFFFFE",
+      "bch": "BCAAA4",
+      "bcn": "D7CCC8",
+      "bcg": "5D4037",
+      "fc": "000000",
+      "fcn": "000000",
+      "fch": "A1887F",
+      "fcl": "000000",
+      "fcv": "000000",
+      "ac": "5D4037"
+    }
+  },
+  "10": {
+    "theme": "Blaugrau",
+    "icons": "black",
+    "colors": {
+      "bc": "FAFAFA",
+      "bcc": "FFFFFE",
+      "bch": "B0BEC5",
+      "bcn": "CFD8DC",
+      "bcg": "455A64",
+      "fc": "000000",
+      "fcn": "000000",
+      "fch": "90A4AE",
+      "fcl": "000000",
+      "fcv": "000000",
+      "ac": "455A64"
+    }
+  },
+  "100": {
+    "theme": "D.Grau",
+    "icons": "white",
+    "colors": {
+      "bc": "303030",
+      "bcc": "424242",
+      "bch": "000000",
+      "bcn": "000000",
+      "bcg": "424242",
+      "fc": "FFFFFF",
+      "fcn": "FFFFFF",
+      "fch": "D0D0D0",
+      "fcl": "F0F0F0",
+      "fcv": "F0F0F0",
+      "ac": "A0A0A0"
+    }
+  },
+  "101": {
+    "theme": "D.Violett",
+    "icons": "white",
+    "colors": {
+      "bc": "512DA8",
+      "bcc": "4527A0",
+      "bch": "311B92",
+      "bcn": "311B92",
+      "bcg": "512DA8",
+      "fc": "FFFFFF",
+      "fcn": "FFFFFF",
+      "fch": "9575CD",
+      "fcl": "F0F0F0",
+      "fcv": "F0F0F0",
+      "ac": "D1C4E9"
+    }
+  },
+  "102": {
+    "theme": "D.Indigo",
+    "icons": "white",
+    "colors": {
+      "bc": "303F9F",
+      "bcc": "283593",
+      "bch": "1A237E",
+      "bcn": "1A237E",
+      "bcg": "303F9F",
+      "fc": "FFFFFF",
+      "fcn": "FFFFFF",
+      "fch": "7986CB",
+      "fcl": "F0F0F0",
+      "fcv": "F0F0F0",
+      "ac": "C5CAE9"
+    }
+  }
+}
