@@ -114,7 +114,7 @@ class IPSMaterialDesignSkinOptions extends IPSModule
     $WebFrontID = $this->ReadPropertyInteger("WebfrontID");
     $SkinTheme = $this->GetValueInteger("SkinTheme");
 
-    $skin_path    = IPS_GetKernelDir()."webfront/user/skins/MaterialDesignLight/";
+    $skin_path    = IPS_GetKernelDir()."webfront/user/skins/IPSMaterialDesignSkin/";
     $icons_css    = $skin_path."icons.css";
     $icons_css_no = $skin_path."icons.css.no";
     $webfront_css = $skin_path."webfront.css";
@@ -134,8 +134,13 @@ class IPSMaterialDesignSkinOptions extends IPSModule
     // webfront.css Datei patchen
     $css = file_get_contents( $webfront_css );
     foreach ($theme["colors"] as $key => $value) {
-      if ($key != "ac")
-        $css = preg_replace("=#[0-9A-F]{6}/\*".$key."\*/=i","#".$value."/*".$key."*/",$css);
+      if ($key != "ac") {
+        // Hex "000000" oder rgba "0,0,0,1.0" ?
+        if (strpos($value, ",")===FALSE) $replaceWith = "#".$value."/*".$key."*/";
+        else $replaceWith = "rgba(".$value.")/*".$key."*/";
+        $css = preg_replace("=#[0-9A-F]{6}/\*".$key."\*/=i", $replaceWith, $css);
+        $css = preg_replace("=rgba\([0-9,\.]*\)/\*".$key."\*/=i", $replaceWith, $css);
+      }
     }
     file_put_contents( $webfront_css, $css );
          
@@ -163,7 +168,7 @@ class IPSMaterialDesignSkinOptions extends IPSModule
     $WebFrontID = $this->ReadPropertyInteger("WebfrontID");
     $AccentTheme = $this->GetValueInteger("AccentTheme");
 
-    $skin_path    = IPS_GetKernelDir()."webfront/user/skins/MaterialDesignLight/";
+    $skin_path    = IPS_GetKernelDir()."webfront/user/skins/IPSMaterialDesignSkin/";
     $webfront_css = $skin_path."webfront.css";
     
     $themes = $this->GetThemes();
