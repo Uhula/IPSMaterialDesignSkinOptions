@@ -13,6 +13,8 @@ class IPSMaterialDesignSkinOptions extends IPSModule
     $this->RegisterPropertyInteger("AccentTheme", 0);
     $this->RegisterPropertyInteger("WebfrontID", 0);
     $this->RegisterPropertyInteger("LogLevel", 0);
+    $this->RegisterPropertyBoolean("CardShadow", TRUE);
+    
     $this->RegisterPropertyString("Custom1",'{"theme":"Custom1", "icons":"white","colors":{"bc":"803030","bcc":"f24242","bcn1":"400000","bcn2":"812121","bcn3":"812121","bcg":"424242","fc":"FFFFFF","fcn":"FFFFFF","fch":"E0E0E0","fcl":"F0F0F0","fcv":"F0F0F0","ac":"FFB74D"}}');
   }
   
@@ -43,12 +45,15 @@ class IPSMaterialDesignSkinOptions extends IPSModule
     $this->RegisterVariableInteger("SkinTheme", "Thema", "MDSO.Theme");
     $this->RegisterVariableInteger("AccentTheme", "Akzent Thema", "MDSO.Theme");
     $this->RegisterVariableInteger("WebfrontID", "WebFront ID");
+    $this->RegisterVariableBoolean("CardShadow", "Karten mit Schatten");
     $this->EnableAction("SkinTheme");
     $this->EnableAction("AccentTheme");
+    $this->EnableAction("CardShadow");
     
     $this->SetValueInteger("SkinTheme", $this->ReadPropertyInteger("SkinTheme") );
     $this->SetValueInteger("AccentTheme", $this->ReadPropertyInteger("AccentTheme"));
     $this->SetValueInteger("WebfrontID", $this->ReadPropertyInteger("WebfrontID"));
+    $this->SetValueBoolean("CardShadow", $this->ReadPropertyBoolean("CardShadow"));
         
         
     $this->Update();
@@ -60,8 +65,7 @@ class IPSMaterialDesignSkinOptions extends IPSModule
       $this->SetStatus(201);        
     else {
       $this->SetStatus(102);  
-      $this->ApplySkin();
-      $this->ApplyAccent();
+      $this->ApplyTheme(TRUE, TRUE, TRUE);
     }  
          
   }
@@ -108,11 +112,10 @@ class IPSMaterialDesignSkinOptions extends IPSModule
      --------------------------------------------------------------------  
           
   */
-  private function ApplySkin() {
-    $this->Log("[ApplySkin] ".$this->GetValueInteger("SkinTheme") );
+  private function ApplyTheme($_ApplySkin=FALSE, $_ApplyAccent=FALSE, $_ApplyCardShadow=FALSE) {
+    $this->Log("[ApplyTheme] " );
  
     $WebFrontID = $this->ReadPropertyInteger("WebfrontID");
-    $SkinTheme = $this->GetValueInteger("SkinTheme");
 
     $skin_path    = IPS_GetKernelDir()."webfront/user/skins/IPSMaterialDesignSkin/";
     $icons_css    = $skin_path."icons.css";
@@ -123,104 +126,102 @@ class IPSMaterialDesignSkinOptions extends IPSModule
     if ($themes == FALSE ) {
       return FALSE;
     }
-       
-    if ( !array_key_exists($SkinTheme, $themes) ) {
-      $this->Log("[ApplySkin] "."unknown skin ".$SkinTheme );
-      $this->SetStatus(202);
-      return FALSE;
-    }
-    
-    $theme = $themes[$SkinTheme];
-    // webfront.css Datei patchen
+
     $css = file_get_contents( $webfront_css );
-    foreach ($theme["colors"] as $key => $value) {
-      if ($key != "ac") {
-        // Hex "000000" oder rgba "0,0,0,1.0" ?
-        if (strpos($value, ",")===FALSE) $replaceWith = "#".$value."/*".$key."*/";
-        else $replaceWith = "rgba(".$value.")/*".$key."*/";
-        $css = preg_replace("=#[0-9A-F]{6}/\*".$key."\*/=i", $replaceWith, $css);
-        $css = preg_replace("=rgba\([0-9,\.]*\)/\*".$key."\*/=i", $replaceWith, $css);
-      }
-    }
-    file_put_contents( $webfront_css, $css );
-         
-    // icons.css anpassen
-    if ( $theme["icons"] == "white" ) {
-      if (file_exists($icons_css))
-        rename($icons_css, $icons_css_no);
-    } else {
-      if (file_exists($icons_css_no))
-        rename($icons_css_no, $icons_css);
-    }
-          
-    // WebFront neu laden
-    WFC_Reload ( $WebFrontID );
     
-  }
-
-  /* ApplyAccent 
-     --------------------------------------------------------------------  
-          
-  */
-  private function ApplyAccent() {
-    $this->Log("[ApplyAccent] ".$this->GetValueInteger("AccentTheme") );
- 
-    $WebFrontID = $this->ReadPropertyInteger("WebfrontID");
-    $AccentTheme = $this->GetValueInteger("AccentTheme");
-
-    $skin_path    = IPS_GetKernelDir()."webfront/user/skins/IPSMaterialDesignSkin/";
-    $webfront_css = $skin_path."webfront.css";
+    if ($_ApplySkin ) {    
+      $SkinTheme = $this->GetValueInteger("SkinTheme");
+      if ( !array_key_exists($SkinTheme, $themes) ) {
+        $this->Log("[ApplyTheme] "."unknown skin-theme ".$SkinTheme );
+        $this->SetStatus(202);
+        return FALSE;
+     }
     
-    $themes = $this->GetThemes();
-    if ($themes == FALSE ) {
-      return FALSE;
-    }
-       
-    if ( !array_key_exists($AccentTheme, $themes) ) {
-      $this->Log("[ApplyAccent] "."unknown skin ".$SkinTheme );
-      $this->SetStatus(202);
-      return FALSE;
-    }
-    
-    $color = "FFFFFF";
-    $theme = $themes[$AccentTheme];
-    // webfront.css Datei patchen
-    $css = file_get_contents( $webfront_css );
-    foreach ($theme["colors"] as $key => $value) {
-      if ($key == "ac") {
-        $css = preg_replace("=#[0-9A-F]{6}/\*".$key."\*/=i","#".$value."/*".$key."*/",$css);
-        $color = $value;
-      }
-    }
-    file_put_contents( $webfront_css, $css );
-    
-    // Icons einfärben
-    $icon_path = $skin_path."icons_colored/";
-
-    if (!file_exists($icon_path) || !is_dir($icon_path) ) {
-	    $this->Log("Verzeichnis (".$icon_path.") für die eingefärbten Icons existiert nicht.");
-	    return false;
-    }
-    if (!is_writeable($icon_path)) {
-	    $this->Log("Verzeichnis (".$icon_path.") für die eingefärbten Icons ist nicht beschreibbar.");
-      return false;
-    }
-
-    if ($dh = opendir($icon_path)) {
-      while (($file = readdir($dh)) !== false) {
-        if (filetype($icon_path.$file)=="file" && pathinfo($file,PATHINFO_EXTENSION)=="svg") {
-          $svg = file_get_contents( $icon_path.$file );
-          $svg = preg_replace('~stroke="#[0-9A-F]{6}"~i','stroke="#'.$color.'"',$svg);
-			    file_put_contents($icon_path.$file, $svg);
+      $theme = $themes[$SkinTheme];
+      // webfront.css Datei patchen
+      foreach ($theme["colors"] as $key => $value) {
+       if ( ($key != "ac") and ($key != "acb") ) {
+          // Hex "000000" oder rgba "0,0,0,1.0" ?
+          if (strpos($value, ",")===FALSE) $replaceWith = "#".$value."/*".$key."*/";
+          else $replaceWith = "rgba(".$value.")/*".$key."*/";
+          $css = preg_replace("=#[0-9A-F]{6}/\*".$key."\*/=i", $replaceWith, $css);
+          $css = preg_replace("=rgba\([0-9,\.]*\)/\*".$key."\*/=i", $replaceWith, $css);
         }
       }
-      closedir($dh);
-    }
          
-    // WebFront neu laden
+      // icons.css anpassen
+      if ( $theme["icons"] == "white" ) {
+        if (file_exists($icons_css))
+          rename($icons_css, $icons_css_no);
+      } else {
+        if (file_exists($icons_css_no))
+          rename($icons_css_no, $icons_css);
+      }
+    } // ApplySkin
+
+    if ($_ApplyAccent ) {    
+      $AccentTheme = $this->GetValueInteger("AccentTheme");
+      if ( !array_key_exists($AccentTheme, $themes) ) {
+        $this->Log("[ApplyTheme] "."unknown accent-theme ".$SkinTheme );
+        $this->SetStatus(202);
+        return FALSE;
+      }
+    
+      $color = "000000";
+      $theme = $themes[$AccentTheme];
+      // webfront.css Datei patchen
+      foreach ($theme["colors"] as $key => $value) {
+        if ( ($key == "ac") or ($key == "acb") ) {
+          // Hex "000000" oder rgba "0,0,0,1.0" ?
+          if (strpos($value, ",")===FALSE) $replaceWith = "#".$value."/*".$key."*/";
+          else $replaceWith = "rgba(".$value.")/*".$key."*/";
+          $css = preg_replace("=#[0-9A-F]{6}/\*".$key."\*/=i", $replaceWith, $css);
+          $css = preg_replace("=rgba\([0-9,\.]*\)/\*".$key."\*/=i", $replaceWith, $css);
+          if ($key == "ac") $color = $value;
+        }
+      }
+    
+      // Icons einfärben
+      $icon_path = $skin_path."icons_colored/";
+
+      if (!file_exists($icon_path) or !is_dir($icon_path) ) {
+	      $this->Log("Verzeichnis (".$icon_path.") für die eingefärbten Icons existiert nicht.");
+	      return false;
+      }
+      if (!is_writeable($icon_path)) {
+	      $this->Log("Verzeichnis (".$icon_path.") für die eingefärbten Icons ist nicht beschreibbar.");
+        return false;
+      }
+
+      if ($dh = opendir($icon_path)) {
+        while (($file = readdir($dh)) !== false) {
+          if (filetype($icon_path.$file)=="file" && pathinfo($file,PATHINFO_EXTENSION)=="svg") {
+            $svg = file_get_contents( $icon_path.$file );
+            $svg = preg_replace('~stroke="#[0-9A-F]{6}"~i','stroke="#'.$color.'"',$svg);
+			      file_put_contents($icon_path.$file, $svg);
+          }
+        }
+        closedir($dh);
+      }
+    }
+
+    if ($_ApplyCardShadow ) {    
+      // webfront.css Datei patchen
+      if ( $this->ReadPropertyBoolean("CardShadow") ) {
+        $css = preg_replace("=/\*sb\*/.*/\*/sb\*/=i", "/\*sb\*//\*/sb\*/", $css);
+        $css = preg_replace("=/\*hb\*/.*/\*/hb\*/=i", "/\*hb\*/\._disabled/\*/hb\*/", $css);
+      } else {
+        $css = preg_replace("=/\*sb\*/.*/\*/sb\*/=i", "/\*sb\*/\._disabled/\*/sb\*/", $css);
+        $css = preg_replace("=/\*hb\*/.*/\*/hb\*/=i", "/\*hb\*//\*/hb\*/", $css);
+      }      
+    }
+    
+    // CSS schreiben, WebFront neu laden
+    file_put_contents( $webfront_css, $css );
     WFC_Reload ( $WebFrontID );
-  
+    
   }
+
   
   public function RequestAction($Ident, $Value) {
     switch($Ident) {
@@ -229,6 +230,10 @@ class IPSMaterialDesignSkinOptions extends IPSModule
         break;
       case "AccentTheme":
         $this->SetSkinTheme(-1, $Value);
+        break;
+      case "CardShadow":
+        $this->SetValueBoolean("CardShadow", $Value );
+        $his->ApplyTheme(FALSE, FALSE, TRUE);
         break;
       default:
         throw new Exception("Invalid ident");
@@ -246,6 +251,20 @@ class IPSMaterialDesignSkinOptions extends IPSModule
   private function GetValueInteger($Ident) {
     $id = $this->GetIDForIdent($Ident);
     $val = GetValueInteger($id);
+    return $val;
+  }
+
+  private function SetValueBoolean($Ident, $value) {
+    $id = $this->GetIDForIdent($Ident);
+    if (GetValueBoolean($id) <> $value) {
+      SetValueBoolean($id, $value);
+      return true;
+    }
+    return false;
+  }
+  private function GetValueBoolean($Ident) {
+    $id = $this->GetIDForIdent($Ident);
+    $val = GetValueBoolean($id);
     return $val;
   }
   
