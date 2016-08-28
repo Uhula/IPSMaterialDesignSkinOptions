@@ -50,6 +50,7 @@
             { "label": "Benutzerdefiniert 3", "value": 202 }
         ]
       },
+      { "type": "CheckBox", "name": "CardShadow", "caption": "Karten mit Schatten" },
       { "type": "ValidationTextBox", "name": "Custom1", "caption": "Benutzerdefiniert 1" },    
       { "type": "Label", "label": "*** Format:" },
       { "type": "Label", "label": "bc=background color, ..." },
