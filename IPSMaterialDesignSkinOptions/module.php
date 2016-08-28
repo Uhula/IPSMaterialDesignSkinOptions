@@ -208,11 +208,11 @@ class IPSMaterialDesignSkinOptions extends IPSModule
     if ($_ApplyCardShadow ) {    
       // webfront.css Datei patchen
       if ( $this->ReadPropertyBoolean("CardShadow") ) {
-        $css = preg_replace("=/\*sb\*/.*/\*/sb\*/=i", "/\*sb\*//\*/sb\*/", $css);
-        $css = preg_replace("=/\*hb\*/.*/\*/hb\*/=i", "/\*hb\*/\._disabled/\*/hb\*/", $css);
+        $css = preg_replace("=/\*sb\*/.*/\*/sb\*/=i", "/*sb*//*/sb*/", $css);
+        $css = preg_replace("=/\*hb\*/.*/\*/hb\*/=i", "/*hb*/._disabled/*/hb*/", $css);
       } else {
-        $css = preg_replace("=/\*sb\*/.*/\*/sb\*/=i", "/\*sb\*/\._disabled/\*/sb\*/", $css);
-        $css = preg_replace("=/\*hb\*/.*/\*/hb\*/=i", "/\*hb\*//\*/hb\*/", $css);
+        $css = preg_replace("=/\*sb\*/.*/\*/sb\*/=i", "/*sb*/._disabled/*/sb*/", $css);
+        $css = preg_replace("=/\*hb\*/.*/\*/hb\*/=i", "/*hb*//*/hb*/", $css);
       }      
     }
     
