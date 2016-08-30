@@ -38,7 +38,7 @@ class IPSMaterialDesignSkinOptions extends IPSModule
 //        $arr[] = array($key,$value["theme"],"","0x".$value["colors"]["ac"] ); // -1=transparent
         $arr[] = array($key,$value["theme"],"",-1 ); // -1=transparent
       }
-      $this->RegisterProfileIntegerAssociation("MDSO.Theme", "", "", "",$arr);
+      $this->RegisterProfileIntegerAssociation("MDSO.Theme", "", "", "",$arr, 1);
     }
     
     //Variablen erstellen
@@ -306,7 +306,7 @@ class IPSMaterialDesignSkinOptions extends IPSModule
     IPS_SetVariableProfileValues($Name, $MinValue, $MaxValue, $StepSize);
 	}
   
-  protected function RegisterProfileIntegerAssociation($Name, $Icon, $Prefix, $Suffix, $Associations) {
+  protected function RegisterProfileIntegerAssociation($Name, $Icon, $Prefix, $Suffix, $Associations, $Stepsize) {
     if ( sizeof($Associations) === 0 ){
       $MinValue = 0;
       $MaxValue = 0;
@@ -315,7 +315,7 @@ class IPSMaterialDesignSkinOptions extends IPSModule
       $MaxValue = $Associations[sizeof($Associations)-1][0];
     }
         
-    $this->RegisterProfileInteger($Name, $Icon, $Prefix, $Suffix, $MinValue, $MaxValue, 0);
+    $this->RegisterProfileInteger($Name, $Icon, $Prefix, $Suffix, $MinValue, $MaxValue, $StepSize);
         
     foreach($Associations as $Association) {
       IPS_SetVariableProfileAssociation($Name, $Association[0], $Association[1], $Association[2], $Association[3]);

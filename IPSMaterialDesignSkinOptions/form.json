@@ -18,13 +18,13 @@
             { "label": "Braun", "value": 9 },
             { "label": "Blaugrau", "value": 10 },
 
-            { "label": "D.Grau", "value": 100 },
-            { "label": "D.Violett", "value": 101 },
-            { "label": "D.Indigo", "value": 102 },
+            { "label": "D.Grau", "value": 11 },
+            { "label": "D.Violett", "value": 12 },
+            { "label": "D.Indigo", "value": 13 },
 
-            { "label": "Benutzerdefiniert 1", "value": 200 },
-            { "label": "Benutzerdefiniert 2", "value": 201 },
-            { "label": "Benutzerdefiniert 3", "value": 202 }
+            { "label": "Benutzerdefiniert 1", "value": 14 },
+            { "label": "Benutzerdefiniert 2", "value": 15 },
+            { "label": "Benutzerdefiniert 3", "value": 16 }
         ]
       },
       { "type": "Select", "name": "AccentTheme", "caption": "Akzent-Thema",
@@ -41,13 +41,13 @@
             { "label": "Braun", "value": 9 },
             { "label": "Blaugrau", "value": 10 },
 
-            { "label": "D.Grau", "value": 100 },
-            { "label": "D.Violett", "value": 101 },
-            { "label": "D.Indigo", "value": 102 },
+            { "label": "D.Grau", "value": 11 },
+            { "label": "D.Violett", "value": 12 },
+            { "label": "D.Indigo", "value": 13 },
 
-            { "label": "Benutzerdefiniert 1", "value": 200 },
-            { "label": "Benutzerdefiniert 2", "value": 201 },
-            { "label": "Benutzerdefiniert 3", "value": 202 }
+            { "label": "Benutzerdefiniert 1", "value": 14 },
+            { "label": "Benutzerdefiniert 2", "value": 15 },
+            { "label": "Benutzerdefiniert 3", "value": 16 }
         ]
       },
       { "type": "CheckBox", "name": "CardShadow", "caption": "Karten mit Schatten" },
@@ -59,8 +59,8 @@
     ],
 
     "actions": [
-      { "type": "Button", "label": "Skin 0 0", "onClick": "MDS_SetSkinTheme(0,0);" },
-      { "type": "Button", "label": "Skin 100 2", "onClick": "MDS_SetSkinTheme(100,2);" }
+      { "type": "Button", "label": "Skin grau/grau", "onClick": "MDSO_SetSkinTheme(0,0);" },
+      { "type": "Button", "label": "Skin d.grau/petrol", "onClick": "MDSO_SetSkinTheme(11,5);" }
     ],
     
     "status": [
