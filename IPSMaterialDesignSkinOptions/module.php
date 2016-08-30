@@ -306,7 +306,7 @@ class IPSMaterialDesignSkinOptions extends IPSModule
     IPS_SetVariableProfileValues($Name, $MinValue, $MaxValue, $StepSize);
 	}
   
-  protected function RegisterProfileIntegerAssociation($Name, $Icon, $Prefix, $Suffix, $Associations, $Stepsize) {
+  protected function RegisterProfileIntegerAssociation($Name, $Icon, $Prefix, $Suffix, $Associations, $StepSize) {
     if ( sizeof($Associations) === 0 ){
       $MinValue = 0;
       $MaxValue = 0;
