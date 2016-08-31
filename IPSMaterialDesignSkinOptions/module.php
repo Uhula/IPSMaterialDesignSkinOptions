@@ -82,21 +82,21 @@ class IPSMaterialDesignSkinOptions extends IPSModule
   }
   
   public function SetSkinTheme($skintheme) {
-    $this->Log("[SetSkinTheme] ".$skintheme );
+    $this->Log($skintheme );
     if ( $skintheme != -1 )  
       $this->SetValueInteger("SkinTheme", $skintheme );
     $this->Update();
   }
   
   public function SetAccentTheme($accenttheme) {
-    $this->Log("[SetAccentTheme] ".$accenttheme );
+    $this->Log($accenttheme );
     if ( $accenttheme != -1 )
       $this->SetValueInteger("AccentTheme", $accenttheme );
     $this->Update();
   }
 
   public function SetCardShadow($cardshadow) {
-    $this->Log("[SetCardShadow] ".$cardshadow );
+    $this->Log( $cardshadow );
     $this->SetValueBoolean("CardShadow", $cardshadow );
     $this->Update();
   }
@@ -131,7 +131,7 @@ class IPSMaterialDesignSkinOptions extends IPSModule
           
   */
   private function ApplyTheme($_ApplySkin=FALSE, $_ApplyAccent=FALSE, $_ApplyCardShadow=FALSE) {
-    $this->Log("[ApplyTheme] " );
+    $this->Log("");
  
     $WebFrontID = $this->ReadPropertyInteger("WebfrontID");
 
@@ -225,7 +225,7 @@ class IPSMaterialDesignSkinOptions extends IPSModule
 
     if ($_ApplyCardShadow ) {    
       // webfront.css Datei patchen
-      if ( $this->ReadPropertyBoolean("CardShadow") ) {
+      if ( $this->GetValueBoolean("CardShadow") ) {
         $css = preg_replace("=/\*sb\*/.*/\*/sb\*/=i", "/*sb*//*/sb*/", $css);
         $css = preg_replace("=/\*hb\*/.*/\*/hb\*/=i", "/*hb*/._disabled/*/hb*/", $css);
       } else {
@@ -245,11 +245,9 @@ class IPSMaterialDesignSkinOptions extends IPSModule
     switch($Ident) {
       case "SkinTheme":
         $this->SetValueInteger("SkinTheme", $Value );
-        //$this->SetSkinTheme($Value, -1);
         break;
       case "AccentTheme":
         $this->SetValueInteger("AccentTheme", $Value );
-        //$this->SetSkinTheme(-1, $Value);
         break;
       case "CardShadow":
         $this->SetValueBoolean("CardShadow", $Value );
