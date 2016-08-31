@@ -40,15 +40,18 @@ class IPSMaterialDesignSkinOptions extends IPSModule
       }
       $this->RegisterProfileIntegerAssociation("MDSO.Theme", "", "", "",$arr, 1);
     }
+    $this->RegisterProfileIntegerAssociation("MDSO.Apply", "", "", "",["0"=>"Anwenden"], 0);
     
     //Variablen erstellen
     $this->RegisterVariableInteger("SkinTheme", "Thema", "MDSO.Theme");
     $this->RegisterVariableInteger("AccentTheme", "Akzent Thema", "MDSO.Theme");
     $this->RegisterVariableInteger("WebfrontID", "WebFront ID");
     $this->RegisterVariableBoolean("CardShadow", "Karten mit Schatten");
+    $this->RegisterVariableInteger("Apply", "Anwenden", "MDSO.Apply");
     $this->EnableAction("SkinTheme");
     $this->EnableAction("AccentTheme");
     $this->EnableAction("CardShadow");
+    $this->EnableAction("Apply");
     
     $this->SetValueInteger("SkinTheme", $this->ReadPropertyInteger("SkinTheme") );
     $this->SetValueInteger("AccentTheme", $this->ReadPropertyInteger("AccentTheme"));
@@ -74,12 +77,23 @@ class IPSMaterialDesignSkinOptions extends IPSModule
     IPS_LogMessage("MDSO", $msg );
   }
   
-  public function SetSkinTheme($skintheme, $accenttheme) {
-    $this->Log("[SetSkinTheme] Skin:".$skintheme." Accent:".$accenttheme );
+  public function SetSkinTheme($skintheme) {
+    $this->Log("[SetSkinTheme] ".$skintheme );
     if ( $skintheme != -1 )  
       $this->SetValueInteger("SkinTheme", $skintheme );
+    $this->Update();
+  }
+  
+  public function SetAccentTheme($accenttheme) {
+    $this->Log("[SetAccentTheme] ".$accenttheme );
     if ( $accenttheme != -1 )
       $this->SetValueInteger("AccentTheme", $accenttheme );
+    $this->Update();
+  }
+
+  public function SetCardShadow($cardshadow) {
+    $this->Log("[SetCardShadow] ".$cardshadow );
+    $this->SetValueBoolean("CardShadow", $cardshadow );
     $this->Update();
   }
   
@@ -226,14 +240,18 @@ class IPSMaterialDesignSkinOptions extends IPSModule
   public function RequestAction($Ident, $Value) {
     switch($Ident) {
       case "SkinTheme":
-        $this->SetSkinTheme($Value, -1);
+        $this->SetValueInteger("SkinTheme", $Value );
+        //$this->SetSkinTheme($Value, -1);
         break;
       case "AccentTheme":
-        $this->SetSkinTheme(-1, $Value);
+        $this->SetValueInteger("AccentTheme", $Value );
+        //$this->SetSkinTheme(-1, $Value);
         break;
       case "CardShadow":
         $this->SetValueBoolean("CardShadow", $Value );
-        $his->ApplyTheme(FALSE, FALSE, TRUE);
+        break;
+      case "Apply":
+        $this->ApplyTheme(TRUE, TRUE, TRUE);
         break;
       default:
         throw new Exception("Invalid ident");

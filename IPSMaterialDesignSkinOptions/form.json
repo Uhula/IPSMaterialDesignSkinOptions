@@ -59,8 +59,8 @@
     ],
 
     "actions": [
-      { "type": "Button", "label": "Skin grau/grau", "onClick": "MDSO_SetSkinTheme(0,0);" },
-      { "type": "Button", "label": "Skin d.grau/petrol", "onClick": "MDSO_SetSkinTheme(11,5);" }
+      { "type": "Button", "label": "Skin grau", "onClick": "MDSO_SetSkinTheme(0);" },
+      { "type": "Button", "label": "Skin d.grau", "onClick": "MDSO_SetSkinTheme(11);" }
     ],
     
     "status": [
