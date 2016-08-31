@@ -29,7 +29,7 @@ class IPSMaterialDesignSkinOptions extends IPSModule
     //Never delete this line!
     parent::ApplyChanges();
     
-    $this->Log("[ApplyChanges]");
+    $this->Log("");
     // Mögliche Skin-Werte laden und dem Profil zuweisen
     $themes = $this->GetThemes();
     if ($themes) {
@@ -66,7 +66,7 @@ class IPSMaterialDesignSkinOptions extends IPSModule
   }
   
   public function Update() {
-    $this->Log("[Update]" );
+    $this->Log("" );
     if ( $this->ReadPropertyInteger("WebfrontID") == 0)
       $this->SetStatus(201);        
     else {
