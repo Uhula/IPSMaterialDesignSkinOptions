@@ -40,8 +40,8 @@ class IPSMaterialDesignSkinOptions extends IPSModule
       }
       $this->RegisterProfileIntegerAssociation("MDSO.Theme", "", "", "",$arr, 1);
     }
-    $this->RegisterProfileIntegerAssociation("MDSO.Apply", "", "", "",[["0","Anwenden","",-1]], 0);
-    $this->RegisterProfileBooleanAssociation("MDSO.OnOff", "", "", "",[["FALSE","aus","",-1],["TRUE","ein","",-1]], 0);
+    $this->RegisterProfileIntegerAssociation("MDSO.Apply", "", "", "",[[0,"Anwenden","",-1]], 0);
+    $this->RegisterProfileBooleanAssociation("MDSO.OnOff", "", "", "",[[FALSE,"aus","",-1],[TRUE,"ein","",-1]], 0);
     
     //Variablen erstellen
     $this->RegisterVariableInteger("SkinTheme", "Thema", "MDSO.Theme");
@@ -75,7 +75,9 @@ class IPSMaterialDesignSkinOptions extends IPSModule
   }
 
   public function Log($msg) {
-    IPS_LogMessage(__CLASS__, "[".__FUNCTION__."]" . $msg ); //
+    $trace = debug_backtrace();
+    $function = $trace[2]['function'];
+    IPS_LogMessage(__CLASS__, "[".$function."]" . $msg ); //
 
   }
   
@@ -338,7 +340,7 @@ class IPSMaterialDesignSkinOptions extends IPSModule
     $this->RegisterProfileInteger($Name, $Icon, $Prefix, $Suffix, $MinValue, $MaxValue, $StepSize);
         
     foreach($Associations as $Association) {
-      IPS_SetVariableProfileAssociation($Name, $Association[0], $Association[1], $Association[2], $Association[3]);
+      IPS_SetVariableProfileAssociation($Name, integer($Association[0]), $Association[1], $Association[2], $Association[3]);
     }
         
   }  
@@ -355,7 +357,7 @@ class IPSMaterialDesignSkinOptions extends IPSModule
         
         IPS_SetVariableProfileIcon($Name, $Icon);
         IPS_SetVariableProfileText($Name, $Prefix, $Suffix);
-        IPS_SetVariableProfileValues($Name, $MinValue, $MaxValue, $StepSize);
+        IPS_SetVariableProfileValues($Name, boolval($MinValue), boolval($MaxValue), $StepSize);
     }
     
     protected function RegisterProfileBooleanAssociation($Name, $Icon, $Prefix, $Suffix, $Associations, $StepSize) {
@@ -370,7 +372,7 @@ class IPSMaterialDesignSkinOptions extends IPSModule
         $this->RegisterProfileBoolean($Name, $Icon, $Prefix, $Suffix, $MinValue, $MaxValue, $StepSize);
         
         foreach($Associations as $Association) {
-            IPS_SetVariableProfileAssociation($Name, $Association[0], $Association[1], $Association[2], $Association[3]);
+            IPS_SetVariableProfileAssociation($Name, boolval($Association[0]), $Association[1], $Association[2], $Association[3]);
         }
         
     }
