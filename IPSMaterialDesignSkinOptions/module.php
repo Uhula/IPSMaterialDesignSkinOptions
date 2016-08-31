@@ -44,16 +44,18 @@ class IPSMaterialDesignSkinOptions extends IPSModule
     $this->RegisterProfileBooleanAssociation("MDSO.OnOff", "", "", "",[[FALSE,"aus","",-1],[TRUE,"ein","",-1]], 0);
     
     //Variablen erstellen
-    $this->RegisterVariableInteger("SkinTheme", "Thema", "MDSO.Theme");
-    $this->RegisterVariableInteger("AccentTheme", "Akzent Thema", "MDSO.Theme");
-    $this->RegisterVariableInteger("WebfrontID", "WebFront ID");
-    $this->RegisterVariableBoolean("CardShadow", "Karten mit Schatten", "MDSO.OnOff");
-    $this->RegisterVariableInteger("Apply", "Anwenden", "MDSO.Apply");
+    $this->RegisterVariableInteger("SkinTheme", "Thema", "MDSO.Theme",0);
+    $this->RegisterVariableInteger("AccentTheme", "Akzent Thema", "MDSO.Theme",1);
+    $this->RegisterVariableInteger("WebfrontID", "WebFront ID","",20);
+    $this->RegisterVariableBoolean("CardShadow", "Karten mit Schatten", "MDSO.OnOff",2);
+    $this->RegisterVariableInteger("Apply", "Anwenden", "MDSO.Apply",19);
     $this->EnableAction("SkinTheme");
     $this->EnableAction("AccentTheme");
     $this->EnableAction("CardShadow");
     $this->EnableAction("Apply");
     
+     IPS_SetPosition ( integer $ObjektID, integer $Position )
+     
     $this->SetValueInteger("SkinTheme", $this->ReadPropertyInteger("SkinTheme") );
     $this->SetValueInteger("AccentTheme", $this->ReadPropertyInteger("AccentTheme"));
     $this->SetValueInteger("WebfrontID", $this->ReadPropertyInteger("WebfrontID"));
