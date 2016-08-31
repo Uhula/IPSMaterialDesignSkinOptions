@@ -40,13 +40,14 @@ class IPSMaterialDesignSkinOptions extends IPSModule
       }
       $this->RegisterProfileIntegerAssociation("MDSO.Theme", "", "", "",$arr, 1);
     }
-    $this->RegisterProfileIntegerAssociation("MDSO.Apply", "", "", "",["0"=>"Anwenden"], 0);
+    $this->RegisterProfileIntegerAssociation("MDSO.Apply", "", "", "",[["0","Anwenden","",-1]], 0);
+    $this->RegisterProfileBooleanAssociation("MDSO.OnOff", "", "", "",[["FALSE","aus","",-1],["TRUE","ein","",-1]], 0);
     
     //Variablen erstellen
     $this->RegisterVariableInteger("SkinTheme", "Thema", "MDSO.Theme");
     $this->RegisterVariableInteger("AccentTheme", "Akzent Thema", "MDSO.Theme");
     $this->RegisterVariableInteger("WebfrontID", "WebFront ID");
-    $this->RegisterVariableBoolean("CardShadow", "Karten mit Schatten");
+    $this->RegisterVariableBoolean("CardShadow", "Karten mit Schatten", "MDSO.OnOff");
     $this->RegisterVariableInteger("Apply", "Anwenden", "MDSO.Apply");
     $this->EnableAction("SkinTheme");
     $this->EnableAction("AccentTheme");
@@ -74,7 +75,8 @@ class IPSMaterialDesignSkinOptions extends IPSModule
   }
 
   public function Log($msg) {
-    IPS_LogMessage("MDSO", $msg );
+    IPS_LogMessage(__CLASS__, "[".__FUNCTION__."]" . $msg ); //
+
   }
   
   public function SetSkinTheme($skintheme) {
@@ -114,7 +116,7 @@ class IPSMaterialDesignSkinOptions extends IPSModule
     
     // Custom-Skins hinzufügen
     $custom = $this->ReadPropertyString("Custom1");
-    $themes[200] = json_decode( $custom, true );
+    $themes[14] = json_decode( $custom, true );
     if (json_last_error() != JSON_ERROR_NONE ) {
       $this->Log("[GetThemes] "."Custom skin 1 wrong ".$custom );
       return FALSE;
@@ -275,7 +277,7 @@ class IPSMaterialDesignSkinOptions extends IPSModule
   private function SetValueBoolean($Ident, $value) {
     $id = $this->GetIDForIdent($Ident);
     if (GetValueBoolean($id) <> $value) {
-      SetValueBoolean($id, $value);
+      SetValueBoolean($id, boolval($value));
       return true;
     }
     return false;
@@ -340,5 +342,37 @@ class IPSMaterialDesignSkinOptions extends IPSModule
     }
         
   }  
+  
+   protected function RegisterProfileBoolean($Name, $Icon, $Prefix, $Suffix, $MinValue, $MaxValue, $StepSize) {
+        
+        if(!IPS_VariableProfileExists($Name)) {
+            IPS_CreateVariableProfile($Name, 0);
+        } else {
+            $profile = IPS_GetVariableProfile($Name);
+            if($profile['ProfileType'] != 0)
+            throw new Exception("Variable profile type does not match for profile ".$Name);
+        }
+        
+        IPS_SetVariableProfileIcon($Name, $Icon);
+        IPS_SetVariableProfileText($Name, $Prefix, $Suffix);
+        IPS_SetVariableProfileValues($Name, $MinValue, $MaxValue, $StepSize);
+    }
+    
+    protected function RegisterProfileBooleanAssociation($Name, $Icon, $Prefix, $Suffix, $Associations, $StepSize) {
+        if ( sizeof($Associations) === 0 ){
+            $MinValue = 0;
+            $MaxValue = 0;
+        } else {
+            $MinValue = $Associations[0][0];
+            $MaxValue = $Associations[sizeof($Associations)-1][0];
+        }
+        
+        $this->RegisterProfileBoolean($Name, $Icon, $Prefix, $Suffix, $MinValue, $MaxValue, $StepSize);
+        
+        foreach($Associations as $Association) {
+            IPS_SetVariableProfileAssociation($Name, $Association[0], $Association[1], $Association[2], $Association[3]);
+        }
+        
+    }
 }
 ?>
