@@ -54,8 +54,7 @@ class IPSMaterialDesignSkinOptions extends IPSModule
     $this->EnableAction("CardShadow");
     $this->EnableAction("Apply");
     
-     IPS_SetPosition ( integer $ObjektID, integer $Position )
-     
+         
     $this->SetValueInteger("SkinTheme", $this->ReadPropertyInteger("SkinTheme") );
     $this->SetValueInteger("AccentTheme", $this->ReadPropertyInteger("AccentTheme"));
     $this->SetValueInteger("WebfrontID", $this->ReadPropertyInteger("WebfrontID"));
