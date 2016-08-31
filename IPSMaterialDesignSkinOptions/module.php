@@ -76,7 +76,7 @@ class IPSMaterialDesignSkinOptions extends IPSModule
 
   public function Log($msg) {
     $trace = debug_backtrace();
-    $function = $trace[2]['function'];
+    $function = $trace[1]['function'];
     IPS_LogMessage(__CLASS__, "[".$function."]" . $msg ); //
 
   }
@@ -340,7 +340,7 @@ class IPSMaterialDesignSkinOptions extends IPSModule
     $this->RegisterProfileInteger($Name, $Icon, $Prefix, $Suffix, $MinValue, $MaxValue, $StepSize);
         
     foreach($Associations as $Association) {
-      IPS_SetVariableProfileAssociation($Name, integer($Association[0]), $Association[1], $Association[2], $Association[3]);
+      IPS_SetVariableProfileAssociation($Name, $Association[0], $Association[1], $Association[2], $Association[3]);
     }
         
   }  
