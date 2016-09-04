@@ -14,7 +14,8 @@
 
 
 ### 1. Funktionsumfang
-Dieses IP Symcon PHP Modul dient dem Einstellen der Optionen des "Material Design Skins" für den Webfront.
+Dieses IP Symcon PHP Modul dient dem Einstellen der Optionen des [IPS MaterialDesignSkin](https://github.com/Uhula/IPSMaterialDesignSkin) 
+für den Webfront.
 So lassen sich z.B. Farbthemen für den Skin selbst und für die Akzente wählen.
 Weiterhin werden auch Funktionen zur Verfügung gestellt um den Skin via Script verändern zu können.
 
@@ -30,7 +31,7 @@ Weiterhin werden auch Funktionen zur Verfügung gestellt um den Skin via Script 
 ### 2. Systemanforderungen
 * IP-Symcon Version 4.0
 * Installierter "Material Design Skin" für den Webfront
-  siehe: `git://github.com/Uhula/IPSMaterialDesignSkin.git`
+  siehe: [IPS MaterialDesignSkin](https://github.com/Uhula/IPSMaterialDesignSkin)
 
 
 ### 3. Installation
@@ -58,10 +59,6 @@ Die Statusvariablen/Kategorien werden automatisch angelegt. Das Löschen einzeln
 
 ##### Statusvariablen
 
-Name    | Typ   | Beschreibung
-------- | ----- | ----------------
-Counter | Float | Fortlaufend hochzählender Wert.
-
 Name          | Typ         | Beschreibung
 ------------- | ----------- | ---------------------------------
 WebfrontID    | integer     | ID des Webfronts, der bei Änderungen aktualisiert werden soll
@@ -88,19 +85,19 @@ sonst beim Wechsel der Skin-/Akzentfarben "nervig" wäre.
 
 Alle PHP-Befehle erhalten den Prefix MDSO_
 
-`boolean MDSO_SetSkinTheme( integer $skintheme );`  
+##### boolean MDSO_SetSkinTheme( integer $skintheme );  
 Setzt das angegebene Skin-Thema und aktualisiert den Webfront.  
 Liefert bei Erfolg true, sonst false.  
 Beispiel:  
 `MDSO_SetSkinTheme( 2 );`
 
-`boolean MDSO_SetAccentTheme( integer $accenttheme );`  
+##### boolean MDSO_SetAccentTheme( integer $accenttheme );  
 Setzt das angegebene Akzent-Thema und aktualisiert den Webfront.  
 Liefert bei Erfolg true, sonst false.  
 Beispiel:  
 `MDSO_SetAccentTheme( 2 );`
 
-`boolean MDSO_SetCardShaodw( boolean $cardshadow );`  
+##### boolean MDSO_SetCardShaodw( boolean $cardshadow );  
 Setzt die Ausgabe der Schatten der Container/Karten auf den übergebenen Wert und aktualisiert den Webfront.  
 Liefert bei Erfolg true, sonst false.  
 Beispiel:  

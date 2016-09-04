@@ -66,14 +66,14 @@ class IPSMaterialDesignSkinOptions extends IPSModule
   
   public function Update() {
     $this->Log("" );
-    result = false;
+    $result = false;
     if ( $this->ReadPropertyInteger("WebfrontID") == 0)
       $this->SetStatus(201); 
     else {
       $this->SetStatus(102);  
-      result = $this->ApplyTheme(TRUE, TRUE, TRUE);
+      $result = $this->ApplyTheme(TRUE, TRUE, TRUE);
     }  
-    return result;     
+    return $result;     
   }
 
   /* Log
@@ -92,23 +92,23 @@ class IPSMaterialDesignSkinOptions extends IPSModule
     $this->Log($skintheme );
     if ( $skintheme != -1 )  
       $this->SetValueInteger("SkinTheme", $skintheme );
-    result = $this->Update();
-    return result;
+    $result = $this->Update();
+    return $result;
   }
   
   public function SetAccentTheme(integer $accenttheme) {
     $this->Log($accenttheme );
     if ( $accenttheme != -1 )
       $this->SetValueInteger("AccentTheme", $accenttheme );
-    result = $this->Update();
-    return result;
+    $result = $this->Update();
+    return $result;
   }
 
   public function SetCardShadow(boolean $cardshadow) {
     $this->Log( $cardshadow );
     $this->SetValueBoolean("CardShadow", $cardshadow );
-    result = $this->Update();
-    return result;
+    $result = $this->Update();
+    return $result;
   }
   
   /* GetThemes
