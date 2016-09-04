@@ -210,6 +210,7 @@ class IPSMaterialDesignSkinOptions extends IPSModule
       }
     
       // Icons einfärben
+    /*
       $icon_path = $skin_path."icons_colored/";
 
       if (!file_exists($icon_path) or !is_dir($icon_path) ) {
@@ -231,6 +232,7 @@ class IPSMaterialDesignSkinOptions extends IPSModule
         }
         closedir($dh);
       }
+    */
     }
 
     if ($_ApplyCardShadow ) {    
