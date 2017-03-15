@@ -23,6 +23,7 @@ Weiterhin werden auch Funktionen zur Verfügung gestellt um den Skin via Script 
 * [Beispiel grau_blau](docs/grau_blau.png?raw=true "Beispiel grau_blau")
 * [Beispiel grau_blau_edit](docs/grau_blau_edit.png?raw=true "Beispiel grau_blau_edit")
 * [Beispiel Grau braun_gruen](docs/braun_gruen.png?raw=true "Beispiel braun_gruen")
+* [Beispiel blaugrau_segoe_script](docs/blaugrau_segoe_script.png?raw=true "Beispiel blaugrau_segoe_script")
 * [Beispiel Grau gruen_orange_schatten](docs/gruen_orange_schatten.png?raw=true "Beispiel gruen_orange_schatten")
 * [Beispiel Grau d_grau_bernstein_schatten](docs/d_grau_bernstein_schatten.png?raw=true "Beispiel d_grau_bernstein_schatten")
 * [Beispiel Grau d_indigo_blau](docs/d_indigo_blau.png?raw=true "Beispiel d_indigo_blau")
