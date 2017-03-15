@@ -1,9 +1,9 @@
-{  
-"id": "{5C0F33E7-7DDB-4D11-A10E-EAA9B1E7A053}",  
-"author": "Uhula",  
-"name": "IPSMaterialDesignSkinOptions",  
-"url": "",  
-"version": "0.9",  
-"build": 20160823,  
-"date": 0  
+{
+"id": "{5C0F33E7-7DDB-4D11-A10E-EAA9B1E7A053}",
+"author": "Uhula",
+"name": "IPSMaterialDesignSkinOptions",
+"url": "https://github.com/Uhula/IPSMaterialDesignSkinOptions.git",
+"version": "2.0",
+"build": 20170315,
+"date": 0
 }

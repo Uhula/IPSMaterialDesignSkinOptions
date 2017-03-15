@@ -6,7 +6,7 @@ class IPSMaterialDesignSkinOptions extends IPSModule
   public function Create() {
     //Never delete this line!
     parent::Create();
-        
+
     //These lines are parsed on Symcon Startup or Instance creation
     //You cannot use variables here. Just static values.
     $this->RegisterPropertyInteger("SkinTheme", 0);
@@ -14,23 +14,24 @@ class IPSMaterialDesignSkinOptions extends IPSModule
     $this->RegisterPropertyInteger("WebfrontID", 0);
     $this->RegisterPropertyInteger("LogLevel", 0);
     $this->RegisterPropertyBoolean("CardShadow", TRUE);
-    
+    $this->RegisterPropertyString("Font", "Roboto,Arial,sans-serif");
+
     $this->RegisterPropertyString("Custom1",'{"theme":"Custom1", "icons":"white","colors":{"bc":"803030","bcc":"f24242","bcn1":"400000","bcn2":"812121","bcn3":"812121","bcg":"424242","fc":"FFFFFF","fcn":"FFFFFF","fch":"E0E0E0","fcl":"F0F0F0","fcv":"F0F0F0","ac":"FFB74D"}}');
   }
-  
+
   public function Destroy() {
-        
+
     //Never delete this line!
     parent::Destroy();
   }
-  
-  
+
+
   public function ApplyChanges() {
     //Never delete this line!
     parent::ApplyChanges();
-    
+
     $this->Log("");
-    // Mögliche Skin-Werte laden und dem Profil zuweisen
+    // Mï¿½gliche Skin-Werte laden und dem Profil zuweisen
     $themes = $this->GetThemes();
     if ($themes) {
       $arr = [];
@@ -42,44 +43,46 @@ class IPSMaterialDesignSkinOptions extends IPSModule
     }
     $this->RegisterProfileIntegerAssociation("MDSO.Apply", "", "", "",[[0,"Anwenden","",-1]], 0);
     $this->RegisterProfileBooleanAssociation("MDSO.OnOff", "", "", "",[[false,"aus","",-1],[TRUE,"ein","",-1]], 0);
-    
+
     //Variablen erstellen
-    $this->RegisterVariableInteger("SkinTheme", "Thema", "MDSO.Theme",0);
-    $this->RegisterVariableInteger("AccentTheme", "Akzent Thema", "MDSO.Theme",1);
-    $this->RegisterVariableInteger("WebfrontID", "WebFront ID","",20);
-    $this->RegisterVariableBoolean("CardShadow", "Karten mit Schatten", "MDSO.OnOff",2);
-    $this->RegisterVariableInteger("Apply", "Anwenden", "MDSO.Apply",19);
+    $this->RegisterVariableInteger("WebfrontID", "WebFront ID","",10);
+    $this->RegisterVariableInteger("SkinTheme", "Thema", "MDSO.Theme",20);
+    $this->RegisterVariableInteger("AccentTheme", "Akzent Thema", "MDSO.Theme",21);
+    $this->RegisterVariableBoolean("CardShadow", "Karten mit Schatten", "MDSO.OnOff",22);
+    $this->RegisterVariableString("Font", "Schriftart", "",23);
+    $this->RegisterVariableInteger("Apply", "Anwenden", "MDSO.Apply",30);
     $this->EnableAction("SkinTheme");
     $this->EnableAction("AccentTheme");
     $this->EnableAction("CardShadow");
+    $this->EnableAction("Font");
     $this->EnableAction("Apply");
-    
-         
+
+
     $this->SetValueInteger("SkinTheme", $this->ReadPropertyInteger("SkinTheme") );
     $this->SetValueInteger("AccentTheme", $this->ReadPropertyInteger("AccentTheme"));
     $this->SetValueInteger("WebfrontID", $this->ReadPropertyInteger("WebfrontID"));
     $this->SetValueBoolean("CardShadow", $this->ReadPropertyBoolean("CardShadow"));
-        
-        
+    $this->SetValueString("Font", $this->ReadPropertyString("Font"));
+
+
     $this->Update();
   }
-  
+
   public function Update() {
-    $this->Log("" );
     $result = false;
     if ( $this->ReadPropertyInteger("WebfrontID") == 0)
-      $this->SetStatus(201); 
+      $this->SetStatus(201);
     else {
-      $this->SetStatus(102);  
+      $this->SetStatus(102);
       $result = $this->ApplyTheme(TRUE, TRUE, TRUE);
-    }  
-    return $result;     
+    }
+    return $result;
   }
 
   /* Log
-     --------------------------------------------------------------------  
+     --------------------------------------------------------------------
      Schreibt die $msg indie IPSymcon Log-Konsole. Class- und Functionname
-     der aufrufenden Funktion werden automatisch vorangestellt     
+     der aufrufenden Funktion werden automatisch vorangestellt
   */
   public function Log($msg) {
     $trace = debug_backtrace();
@@ -87,46 +90,67 @@ class IPSMaterialDesignSkinOptions extends IPSModule
     IPS_LogMessage(__CLASS__, "[".$function."]" . $msg ); //
 
   }
-  
+
   public function SetSkinTheme(integer $skintheme) {
-    $this->Log($skintheme );
-    if ( $skintheme != -1 )  
+    if ( $skintheme != -1 )
       $this->SetValueInteger("SkinTheme", $skintheme );
-    $result = $this->Update();
-    return $result;
+    return $this->Update();
   }
-  
+
   public function SetAccentTheme(integer $accenttheme) {
-    $this->Log($accenttheme );
     if ( $accenttheme != -1 )
       $this->SetValueInteger("AccentTheme", $accenttheme );
-    $result = $this->Update();
-    return $result;
+    return $this->Update();
   }
 
   public function SetCardShadow(boolean $cardshadow) {
-    $this->Log( $cardshadow );
     $this->SetValueBoolean("CardShadow", $cardshadow );
-    $result = $this->Update();
-    return $result;
+    return $this->Update();
   }
-  
+
+  public function SetFont(string $font) {
+    $this->SetValueString("Font", $font );
+    return $this->Update();
+  }
+
+  public function RequestAction($Ident, $Value) {
+    switch($Ident) {
+      case "SkinTheme":
+        $this->SetValueInteger("SkinTheme", $Value );
+        break;
+      case "AccentTheme":
+        $this->SetValueInteger("AccentTheme", $Value );
+        break;
+      case "CardShadow":
+        $this->SetValueBoolean("CardShadow", $Value );
+        break;
+      case "Font":
+        $this->SetValueString("Font", $Value );
+        break;
+      case "Apply":
+        $this->ApplyTheme(TRUE, TRUE, TRUE);
+        break;
+      default:
+        throw new Exception("Invalid ident");
+        }
+  }
+
   /* GetThemes
-     --------------------------------------------------------------------  
+     --------------------------------------------------------------------
      Read the skin-presets and add the custom skins, returning them in
-     one array     
+     one array
   */
   private function GetThemes() {
     $presets_json = __DIR__ . "/presets.json";
-  
+
     $presets = file_get_contents( $presets_json );
     $themes = json_decode( $presets, true );
     if (json_last_error() != JSON_ERROR_NONE ) {
       $this->Log("[GetThemes] "."Error read presets ".$presets_json );
       return false;
     }
-    
-    // Custom-Skins hinzufügen
+
+    // Custom-Skins hinzufuegen
     $custom = $this->ReadPropertyString("Custom1");
     $themes[14] = json_decode( $custom, true );
     if (json_last_error() != JSON_ERROR_NONE ) {
@@ -135,90 +159,90 @@ class IPSMaterialDesignSkinOptions extends IPSModule
     }
     return $themes;
   }
-  
-  /* ApplySkin 
-     --------------------------------------------------------------------  
-     Manipuliert die CSS Dateien      
+
+  /* ApplySkin
+     --------------------------------------------------------------------
+     Manipuliert die CSS Dateien
   */
   private function ApplyTheme($_ApplySkin=false, $_ApplyAccent=false, $_ApplyCardShadow=false) {
-    $this->Log("");
- 
+
     $WebFrontID = $this->ReadPropertyInteger("WebfrontID");
 
     $skin_path    = IPS_GetKernelDir()."webfront/user/skins/IPSMaterialDesignSkin/";
     $icons_css    = $skin_path."icons.css";
     $icons_css_no = $skin_path."icons.css.no";
     $webfront_css = $skin_path."webfront.css";
-    
+
     $themes = $this->GetThemes();
     if ($themes == false ) {
       return false;
     }
 
     $css = file_get_contents( $webfront_css );
-    
-    if ($_ApplySkin ) {    
-      $SkinTheme = $this->GetValueInteger("SkinTheme");
-      if ( !array_key_exists($SkinTheme, $themes) ) {
-        $this->Log("[ApplyTheme] "."unknown skin-theme ".$SkinTheme );
-        $this->SetStatus(202);
-        return false;
-     }
-    
-      $theme = $themes[$SkinTheme];
-      // webfront.css Datei patchen
-      foreach ($theme["colors"] as $key => $value) {
-       if ( ($key != "ac") and ($key != "acb") ) {
-          // Hex "000000" oder rgba "0,0,0,1.0" ?
-          if (strpos($value, ",")===false) $replaceWith = "#".$value."/*".$key."*/";
-          else $replaceWith = "rgba(".$value.")/*".$key."*/";
-          $css = preg_replace("=#[0-9A-F]{6}/\*".$key."\*/=i", $replaceWith, $css);
-          $css = preg_replace("=rgba\([0-9,\.]*\)/\*".$key."\*/=i", $replaceWith, $css);
-        }
-      }
-         
-      // icons.css anpassen
-      if ( $theme["icons"] == "white" ) {
-        if (file_exists($icons_css))
-          rename($icons_css, $icons_css_no);
-      } else {
-        if (file_exists($icons_css_no))
-          rename($icons_css_no, $icons_css);
-      }
+
+    if ($_ApplySkin ) {
+       $SkinTheme = $this->GetValueInteger("SkinTheme");
+       if ( !array_key_exists($SkinTheme, $themes) ) {
+          $this->Log("[ApplyTheme] "."unknown skin-theme ".$SkinTheme );
+          $this->SetStatus(202);
+          return false;
+       }
+
+       $this->Log("SkinTheme=".$SkinTheme);
+
+       $theme = $themes[$SkinTheme];
+       // webfront.css Datei patchen
+       foreach ($theme["colors"] as $key => $value) {
+          if ( ($key != "ac") and ($key != "acb") ) {
+             // Hex "000000" oder rgba "0,0,0,1.0" ?
+             if (strpos($value, ",")===false) $replaceWith = "#".$value."/*".$key."*/";
+             else $replaceWith = "rgba(".$value.")/*".$key."*/";
+             $css = preg_replace("=#[0-9A-F]{6}/\*".$key."\*/=i", $replaceWith, $css);
+             $css = preg_replace("=rgba\([0-9,\.]*\)/\*".$key."\*/=i", $replaceWith, $css);
+          }
+       }
+
+       // icons.css anpassen
+       if ( $theme["icons"] == "white" ) {
+          if (file_exists($icons_css)) rename($icons_css, $icons_css_no);
+       } else {
+          if (file_exists($icons_css_no)) rename($icons_css_no, $icons_css);
+       }
     } // ApplySkin
 
-    if ($_ApplyAccent ) {    
-      $AccentTheme = $this->GetValueInteger("AccentTheme");
-      if ( !array_key_exists($AccentTheme, $themes) ) {
-        $this->Log("[ApplyTheme] "."unknown accent-theme ".$SkinTheme );
-        $this->SetStatus(202);
-        return false;
-      }
-    
+    if ($_ApplyAccent ) {
+       $AccentTheme = $this->GetValueInteger("AccentTheme");
+       if ( !array_key_exists($AccentTheme, $themes) ) {
+          $this->Log("[ApplyTheme] "."unknown accent-theme ".$SkinTheme );
+          $this->SetStatus(202);
+          return false;
+       }
+      $this->Log("AccentTheme=".$AccentTheme);
+
       $color = "000000";
       $theme = $themes[$AccentTheme];
       // webfront.css Datei patchen
       foreach ($theme["colors"] as $key => $value) {
-        if ( ($key == "ac") or ($key == "acb") ) {
-          // Hex "000000" oder rgba "0,0,0,1.0" ?
-          if (strpos($value, ",")===false) $replaceWith = "#".$value."/*".$key."*/";
-          else $replaceWith = "rgba(".$value.")/*".$key."*/";
-          $css = preg_replace("=#[0-9A-F]{6}/\*".$key."\*/=i", $replaceWith, $css);
-          $css = preg_replace("=rgba\([0-9,\.]*\)/\*".$key."\*/=i", $replaceWith, $css);
-          if ($key == "ac") $color = $value;
-        }
+         if ( ($key == "ac") or ($key == "acb") ) {
+            // Hex "000000" oder rgba "0,0,0,1.0" ?
+            if (strpos($value, ",")===false) $replaceWith = "#".$value."/*".$key."*/";
+            else $replaceWith = "rgba(".$value.")/*".$key."*/";
+            $css = preg_replace("=#[0-9A-F]{6}/\*".$key."\*/=i", $replaceWith, $css);
+            $css = preg_replace("=rgba\([0-9,\.]*\)/\*".$key."\*/=i", $replaceWith, $css);
+            if ($key == "ac") $color = $value;
+         }
       }
-    
-      // Icons einfärben
+
+      // Icons einfï¿½rben
     /*
       $icon_path = $skin_path."icons_colored/";
 
       if (!file_exists($icon_path) or !is_dir($icon_path) ) {
-	      $this->Log("Verzeichnis (".$icon_path.") für die eingefärbten Icons existiert nicht.");
+	      $this->Log("Verzeichnis (".$icon_path.") fï¿½r die eingefï¿½rbten Icons existiert nicht.");
 	      return false;
       }
       if (!is_writeable($icon_path)) {
-	      $this->Log("Verzeichnis (".$icon_path.") für die eingefärbten Icons ist nicht beschreibbar.");
+	      $this->Log("Verzeichnis (".$icon_path.") fï¿½r die eingefï¿½rbten Icons ist nicht beschreibbar.");
         return false;
       }
 
@@ -235,44 +259,34 @@ class IPSMaterialDesignSkinOptions extends IPSModule
     */
     }
 
-    if ($_ApplyCardShadow ) {    
-      // webfront.css Datei patchen
-      if ( $this->GetValueBoolean("CardShadow") ) {
-        $css = preg_replace("=/\*sb\*/.*/\*/sb\*/=i", "/*sb*//*/sb*/", $css);
-        $css = preg_replace("=/\*hb\*/.*/\*/hb\*/=i", "/*hb*/._disabled/*/hb*/", $css);
-      } else {
-        $css = preg_replace("=/\*sb\*/.*/\*/sb\*/=i", "/*sb*/._disabled/*/sb*/", $css);
-        $css = preg_replace("=/\*hb\*/.*/\*/hb\*/=i", "/*hb*//*/hb*/", $css);
-      }      
+    if ($_ApplyCardShadow ) {
+       // webfront.css Datei patchen
+      $this->Log("CardShadow=".$this->GetValueBoolean("CardShadow"));
+       if ( $this->GetValueBoolean("CardShadow") ) {
+          $css = preg_replace("=/\*sb\*/.*/\*/sb\*/=i", "/*sb*//*/sb*/", $css);
+          $css = preg_replace("=/\*hb\*/.*/\*/hb\*/=i", "/*hb*/._disabled/*/hb*/", $css);
+       } else {
+          $css = preg_replace("=/\*sb\*/.*/\*/sb\*/=i", "/*sb*/._disabled/*/sb*/", $css);
+          $css = preg_replace("=/\*hb\*/.*/\*/hb\*/=i", "/*hb*//*/hb*/", $css);
+       }
     }
-    
+
+    // Font
+    $font = $this->GetValueString("Font");
+    if ($font<>"") {
+       $this->Log("Font=".$font);
+       $css = preg_replace("=/\*font\*/.*/\*/font\*/=i", "/*font*/".$font."/*/font*/", $css);
+    }
+
     // CSS schreiben, WebFront neu laden
     file_put_contents( $webfront_css, $css );
     WFC_Reload ( $WebFrontID );
-    
+
     return true;
   }
 
-  
-  public function RequestAction($Ident, $Value) {
-    switch($Ident) {
-      case "SkinTheme":
-        $this->SetValueInteger("SkinTheme", $Value );
-        break;
-      case "AccentTheme":
-        $this->SetValueInteger("AccentTheme", $Value );
-        break;
-      case "CardShadow":
-        $this->SetValueBoolean("CardShadow", $Value );
-        break;
-      case "Apply":
-        $this->ApplyTheme(TRUE, TRUE, TRUE);
-        break;
-      default:
-        throw new Exception("Invalid ident");
-        }
-  }
-  
+
+
   private function SetValueInteger($Ident, $value) {
     $id = $this->GetIDForIdent($Ident);
     if (GetValueInteger($id) <> $value) {
@@ -300,7 +314,7 @@ class IPSMaterialDesignSkinOptions extends IPSModule
     $val = GetValueBoolean($id);
     return $val;
   }
-  
+
   private function SetValueFloat($Ident, $value) {
     $id = $this->GetIDForIdent($Ident);
     if (GetValueFloat($id) <> $value) {
@@ -309,7 +323,7 @@ class IPSMaterialDesignSkinOptions extends IPSModule
     }
     return false;
   }
-  
+
   private function SetValueString($Ident, $value) {
     $id = $this->GetIDForIdent($Ident);
     if (GetValueString($id) <> $value) {
@@ -332,13 +346,13 @@ class IPSMaterialDesignSkinOptions extends IPSModule
     	if ($profile['ProfileType'] != 1) {
     		throw new Exception("Variable profile type does not match for profile ".$Name);
     	}
-    }	 
-    		
+    }
+
     IPS_SetVariableProfileIcon($Name, $Icon);
     IPS_SetVariableProfileText($Name, $Prefix, $Suffix);
     IPS_SetVariableProfileValues($Name, $MinValue, $MaxValue, $StepSize);
 	}
-  
+
   protected function RegisterProfileIntegerAssociation($Name, $Icon, $Prefix, $Suffix, $Associations, $StepSize) {
     if ( sizeof($Associations) === 0 ){
       $MinValue = 0;
@@ -347,17 +361,17 @@ class IPSMaterialDesignSkinOptions extends IPSModule
       $MinValue = $Associations[0][0];
       $MaxValue = $Associations[sizeof($Associations)-1][0];
     }
-        
+
     $this->RegisterProfileInteger($Name, $Icon, $Prefix, $Suffix, $MinValue, $MaxValue, $StepSize);
-        
+
     foreach($Associations as $Association) {
       IPS_SetVariableProfileAssociation($Name, $Association[0], $Association[1], $Association[2], $Association[3]);
     }
-        
-  }  
-  
+
+  }
+
    protected function RegisterProfileBoolean($Name, $Icon, $Prefix, $Suffix, $MinValue, $MaxValue, $StepSize) {
-        
+
         if(!IPS_VariableProfileExists($Name)) {
             IPS_CreateVariableProfile($Name, 0);
         } else {
@@ -365,12 +379,12 @@ class IPSMaterialDesignSkinOptions extends IPSModule
             if($profile['ProfileType'] != 0)
             throw new Exception("Variable profile type does not match for profile ".$Name);
         }
-        
+
         IPS_SetVariableProfileIcon($Name, $Icon);
         IPS_SetVariableProfileText($Name, $Prefix, $Suffix);
         IPS_SetVariableProfileValues($Name, boolval($MinValue), boolval($MaxValue), $StepSize);
     }
-    
+
     protected function RegisterProfileBooleanAssociation($Name, $Icon, $Prefix, $Suffix, $Associations, $StepSize) {
         if ( sizeof($Associations) === 0 ){
             $MinValue = 0;
@@ -379,13 +393,13 @@ class IPSMaterialDesignSkinOptions extends IPSModule
             $MinValue = $Associations[0][0];
             $MaxValue = $Associations[sizeof($Associations)-1][0];
         }
-        
+
         $this->RegisterProfileBoolean($Name, $Icon, $Prefix, $Suffix, $MinValue, $MaxValue, $StepSize);
-        
+
         foreach($Associations as $Association) {
             IPS_SetVariableProfileAssociation($Name, boolval($Association[0]), $Association[1], $Association[2], $Association[3]);
         }
-        
+
     }
 }
 ?>
